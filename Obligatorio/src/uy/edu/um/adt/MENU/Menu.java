@@ -1,4 +1,4 @@
-package MENU;
+package uy.edu.um.adt.MENU;
 import java.util.Scanner;
 
 public class Menu {
@@ -59,7 +59,7 @@ public class Menu {
     }
 
     public static String obtenerEleccion(Scanner scanner) {
-        System.out.print("Ingrese su elección: ");
+        System.out.print("Ingrese su elección:  ");
         return scanner.nextLine();
     }
 }
