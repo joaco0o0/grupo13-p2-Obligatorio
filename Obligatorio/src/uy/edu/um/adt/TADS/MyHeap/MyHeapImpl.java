@@ -9,16 +9,15 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
         this.heap = (T[]) new Comparable[10];
         this.minHeap = minHeap;
     }
-
     @Override
-    public T delete(){
+    public T deleteMin(){
         T min = heap[1];
         heap[1] = heap[size--];
-        ordenar(1);
+        ordenarMin(1);
         return min;
     }
 
-    private void ordenar(int i) {
+    private void ordenarMin(int i) {
         T tmp = heap[i];
         int hijo;
         while (2 * i <= size) {
@@ -28,6 +27,36 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
                 hijo++;
 
             if (tmp.compareTo(heap[hijo]) > 0) {
+                heap[i] = heap[hijo];
+                i = hijo;
+            } else {
+                break;
+            }
+        }
+        heap[i] = tmp;
+    }
+
+    @Override
+    public T deleteMax() {
+        T max = heap[1];
+        heap[1] = heap[size];
+        heap[size] = null;
+        size--;
+        ordenarMax(1);
+
+        return max;
+    }
+
+    private void ordenarMax(int i) {
+        T tmp = heap[i];
+        int hijo;
+        while (2 * i <= size) {
+            hijo = 2 * i;
+
+            if (hijo != size && heap[hijo].compareTo(heap[hijo + 1]) < 0) // Compare with the largest child
+                hijo++;
+
+            if (tmp.compareTo(heap[hijo]) < 0) { // Compare with the largest child
                 heap[i] = heap[hijo];
                 i = hijo;
             } else {
