@@ -21,7 +21,7 @@ public class Usuario {
         return this.id;
     }
 
-    public static void addTweet(long tweetNumber, String userName, String userLocation, String userDescription, int favorites, Fecha_y_Hora date, String text, String source, boolean retweeted){
+    public static void addTweet(long tweetNumber, String userName, String userLocation, String userDescription, int favorites, Fecha date, String text, String source, boolean retweeted){
         Tweet tweet = new Tweet(tweetNumber, userName, userLocation, userDescription, favorites, date, text, source, retweeted);
         Usuario usuario = new Usuario(userName);
         usuario.addTweet(tweetNumber, userName, userLocation, userDescription, favorites, date, text, source, retweeted);
