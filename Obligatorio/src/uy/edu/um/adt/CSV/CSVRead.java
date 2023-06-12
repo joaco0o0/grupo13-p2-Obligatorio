@@ -22,7 +22,7 @@ public class CSVRead {
     private MyLinkedList<Tweet> tweets = new MyLinkedList<>();
 
 
-    private static final String Ruta_Archivo = "AQUI va la ruta al archivo";
+    private static final String Ruta_Archivo = "C:\\Users\\Evo-i7\\OneDrive\\Documentos\\FIUM\\2023\\Prog 2\\f1_dataset.csv";
 
     public void csvread(String[] args) {
         try {
@@ -40,6 +40,7 @@ public class CSVRead {
                     String userDescription = fila.get(3);
                     //user creation date
                     String[] fechayHora = fila.get(4).split(" ");
+                    long userCode = 0;
                     if (fechayHora.length >= 2) {
                         String[] fechaComponents = fechayHora[0].split("/");//si estamos en test va - y si es en el normal va /
                         if (fechaComponents.length >= 3) {
@@ -50,11 +51,9 @@ public class CSVRead {
                             if (horaComponents.length >= 2) {
                                 int hora = Integer.parseInt(horaComponents[0]);
                                 int minuto = Integer.parseInt(horaComponents[1]);
-                                Fecha userCreated = new Fecha(anio, mes, dia, hora, minuto);
+                                userCode = (long)minuto+hora*100+dia*10000+mes*1000000+anio*100000000;
                             }
-                            Fecha userCreated = null;
                         }
-                        Fecha userCreated = null;
                     }
                     //user followers
                     int followers = Integer.parseInt(fila.get(5));
@@ -66,6 +65,7 @@ public class CSVRead {
                     boolean verified = Boolean.parseBoolean(fila.get(8));
                     //Tweet date
                     String[] fechaTweet = fila.get(9).split(" ");
+                    Fecha tweetDate = null;
                     if(fechaTweet.length>=2) {
                         String[] fechaTComponents = fechaTweet[0].split("/");//si estamos en test va - y si es en el normal va /
                         if (fechaTComponents.length >= 3) {
@@ -76,11 +76,9 @@ public class CSVRead {
                             if (horaTComponents.length >= 2) {
                                 int horaT = Integer.parseInt(horaTComponents[0]);
                                 int minutoT = Integer.parseInt(horaTComponents[1]);
-                                Fecha tweetDate = new Fecha(anioT, mesT, diaT, horaT, minutoT);
+                                tweetDate = new Fecha(anioT, mesT, diaT, horaT, minutoT);
                             }
-                            Fecha tweetDate = null;
                         }
-                        Fecha tweetDate = null;
                     }
                     //tweet text
                     String text = fila.get(10);
@@ -97,9 +95,17 @@ public class CSVRead {
                     //tweet retweeted
                     boolean retweeted = Boolean.parseBoolean(fila.get(13));
 
+                    //Creo el usuario si es necesario
+                    Usuario user = new Usuario( userName, userCode,  followers, verified);
+                    if(usuarios.contains(user) == false){
+                        usuarios.add(user);
+                    }
+
+                    //Creo el tweet
+                    Tweet tweet = new Tweet(tweetID,userCode, text, source, retweeted, favourites, tweetDate, hashtags);
+                    tweets.add(tweet);
 
                 }
-
 
             }
 
@@ -109,5 +115,8 @@ public class CSVRead {
     }
 
 
-
+    public static void main(String[] args) {
+        CSVRead obj = new CSVRead();
+        obj.csvread(args);
+    }
 }
