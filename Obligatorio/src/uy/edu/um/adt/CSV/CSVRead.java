@@ -42,7 +42,7 @@ public class CSVRead {
                     String[] fechayHora = fila.get(4).split(" ");
                     long userCode = 0;
                     if (fechayHora.length >= 2) {
-                        String[] fechaComponents = fechayHora[0].split("/");//si estamos en test va - y si es en el normal va /
+                        String[] fechaComponents = fechayHora[0].split("/");
                         if (fechaComponents.length >= 3) {
                             int anio = Integer.parseInt(fechaComponents[0]);
                             int mes = Integer.parseInt(fechaComponents[1]);
@@ -67,7 +67,7 @@ public class CSVRead {
                     String[] fechaTweet = fila.get(9).split(" ");
                     Fecha tweetDate = null;
                     if(fechaTweet.length>=2) {
-                        String[] fechaTComponents = fechaTweet[0].split("/");//si estamos en test va - y si es en el normal va /
+                        String[] fechaTComponents = fechaTweet[0].split("/");
                         if (fechaTComponents.length >= 3) {
                             int anioT = Integer.parseInt(fechaTComponents[0]);
                             int mesT = Integer.parseInt(fechaTComponents[1]);
