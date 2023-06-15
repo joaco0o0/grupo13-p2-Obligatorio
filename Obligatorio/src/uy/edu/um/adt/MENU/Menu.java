@@ -1,8 +1,9 @@
 package uy.edu.um.adt.MENU;
+import java.io.IOException;
 import java.util.Scanner;
 import uy.edu.um.adt.CSV.CSVRead;
 public class Menu {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
 
@@ -12,11 +13,16 @@ public class Menu {
             eleccion = obtenerEleccion(scanner);
 
             switch (eleccion) {
+                case "0":
+                    System.out.println("Ha seleccionado la opción 0.");
+                    CSVRead csvRead = new CSVRead();
+                    csvRead.csvread("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    break;
+
                 case "1":
                     System.out.println("Ha seleccionado la opción 1.");
 
 
-                    break;
 
                 case "2":
                     System.out.println("Ha seleccionado la opción 2.");
