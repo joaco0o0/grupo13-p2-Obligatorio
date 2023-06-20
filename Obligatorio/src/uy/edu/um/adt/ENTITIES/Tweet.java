@@ -20,4 +20,32 @@ public class Tweet {
         this.date = date;
         this.hashtags = hashtags;
     }
+
+    public long getTweetNumber() {
+        return tweetNumber;
+    }
+
+    public long getUserCode() {
+        return userCode;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public Fecha getDate() {
+        return date;
+    }
+
+    public MyLinkedList<Hashtag> getHashtags() {
+        return hashtags;
+    }
 }

@@ -16,11 +16,12 @@ public class Menu {
                 case "0":
                     System.out.println("Ha seleccionado la opción 0.");
                     CSVRead csvRead = new CSVRead();
-                    csvRead.csvread("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    csvRead.csvread("\"C:\\Desktop\\obligatorio2023csv\\f1_dataset.csv\"");
                     break;
 
                 case "1":
                     System.out.println("Ha seleccionado la opción 1.");
+                    break;
 
 
 

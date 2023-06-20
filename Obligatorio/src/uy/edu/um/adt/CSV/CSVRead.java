@@ -102,7 +102,7 @@ public class CSVRead {
     }
 
     public MyLinkedList Pilotos() {
-        String archivo = "Obligatorio/src/uy/edu/um/adt/CSV/drivers.txt";
+        String archivo = "\"C:\\Desktop\\obligatorio2023csv\\drivers.txt\"";
         MyLinkedList<String> pilotos = new MyLinkedList<>();
         try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
             String fila;
