@@ -17,7 +17,7 @@ public class Menu {
             switch (eleccion) {
                 case "0":
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.lector("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    obligatorio.lector("../obligatorio2023csv/f1_dataset.csv");
                     System.out.println("Cantidad de Hashtags: " +Obligatorio.getCantHashtags());
                     System.out.println("Cantidad de Tweets: "+obligatorio.getCantTweets());
                     System.out.println("Cantidad de Usuarios: "+obligatorio.getCantUsuarios());
