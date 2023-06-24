@@ -17,16 +17,17 @@ public class Menu {
             switch (eleccion) {
                 case "0":
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.lector("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    obligatorio.IngresarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    System.out.println("Se cargaron los datos correctamente.");
                     System.out.println("Cantidad de Hashtags: " +Obligatorio.getCantHashtags());
                     System.out.println("Cantidad de Tweets: "+obligatorio.getCantTweets());
                     System.out.println("Cantidad de Usuarios: "+obligatorio.getCantUsuarios());
                     System.out.println("Cantidad de Piolotos: "+obligatorio.getPilotos().size());
-
                     break;
 
                 case "1":
                     System.out.println("Ha seleccionado la opción 1.");
+
                     break;
 
 

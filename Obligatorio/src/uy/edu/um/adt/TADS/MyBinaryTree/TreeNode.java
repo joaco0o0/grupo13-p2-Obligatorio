@@ -10,7 +10,7 @@ public class TreeNode<K extends Comparable<K>, V> {
 
     private TreeNode<K, V> left;
 
-    private TreeNode<K, V> right;
+    TreeNode<K, V> right;
 
     public TreeNode(K key, V value) {
         this.key = key;

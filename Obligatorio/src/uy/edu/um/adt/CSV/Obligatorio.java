@@ -4,14 +4,17 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import uy.edu.um.adt.ENTITIES.*;
+import uy.edu.um.adt.TADS.MyBinaryTree.MyBinarySearchTreeImpl;
+import uy.edu.um.adt.TADS.MyBinaryTree.MySearchBinaryTree;
 import uy.edu.um.adt.TADS.MyHash.MyHash;
 import uy.edu.um.adt.TADS.MyHash.MyHashImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
+import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
 
 public class Obligatorio {
-    static MyHash<Long, Tweet> tweets = new MyHashImpl<>(650000);
-    static MyHash<String, Hashtag> hashtags = new MyHashImpl<>(200000);
-    static MyHash<Long, Usuario> usuarios = new MyHashImpl<>(350000);
+    static MyHash<Long, Tweet> tweets = new MyHashImpl<>(640000);
+    static MyHash<String, Hashtag> hashtags = new MyHashImpl<>(45000);
+    static MyHash<Long, Usuario> usuarios = new MyHashImpl<>(123000);
     static int cantTweets, cantUsuarios, cantHashtags;
     public static MyHash<Integer, Piloto> pilotos = new MyHashImpl<>(20);
 
@@ -31,7 +34,7 @@ public class Obligatorio {
         return pilotos;
     }
 
-    public static void lector(String ruta_Archivo) {
+    public static void IngresarDatos(String ruta_Archivo) {
         try(CSVParser par = new CSVParser(new FileReader(ruta_Archivo), CSVFormat.DEFAULT)){
             par.iterator().next();
             int fila = 1;
@@ -71,9 +74,9 @@ public class Obligatorio {
                 //Fecha tweet
                 String[] fechatweet = record.get(9).split(" ");
                 String[] fechaComponentsTweet = fechatweet[0].split("/");
-                int anioTweet = Integer.parseInt(fechaComponentsTweet[0]);
-                int mesTweet = Integer.parseInt(fechaComponentsTweet[1]);
-                int diaTweet = Integer.parseInt(fechaComponentsTweet[2]);
+                Long anioTweet = Long.parseLong(fechaComponentsTweet[0]);
+                Long mesTweet = Long.parseLong(fechaComponentsTweet[1]);
+                Long diaTweet = Long.parseLong(fechaComponentsTweet[2]);
                 Fecha fechaTweet = new Fecha(anioTweet, mesTweet, diaTweet);
 
                 //Is retweeted
@@ -105,8 +108,6 @@ public class Obligatorio {
                 }
                 fila++;
             }
-            System.out.println("Cantidad de filas procesadas: " + fila);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -124,6 +125,26 @@ public class Obligatorio {
             throw new RuntimeException(e);
         }
     }
+
+    public static void ListarLos10PilotosMasMenionadosEnLaTemporada(int anio, int mes){
+        MySearchBinaryTree ArbolBinario = new MyBinarySearchTreeImpl();
+        for (Long i = 0L; i < cantTweets; i++) {
+            if(tweets.get(i).getDate().getMes() == mes && tweets.get(i).getDate().getAnio() == anio){
+                for (int j = 0; j <pilotos.size() ; j++) {
+                    if (tweets.get(i).getText().contains(pilotos.get(j).getNombre())){
+                        pilotos.get(j).add1();
+                    }
+                }
+            }
+        }
+        for (int i = 0; i <pilotos.size() ; i++) {
+            ArbolBinario.insert(pilotos.get(i).getNumero(),pilotos.get(i));
+        }
+
+
+    }
+
+
 
 
     public static long generarClaveUnica(String cadena) { //Asumiedo que no hay dos fechaas de creacion exactamente iguales esto genera claves diferentes

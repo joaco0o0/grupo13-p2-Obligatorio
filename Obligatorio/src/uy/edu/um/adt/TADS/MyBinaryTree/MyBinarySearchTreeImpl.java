@@ -1,5 +1,8 @@
 package uy.edu.um.adt.TADS.MyBinaryTree;
 
+import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
+import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
+
 public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySearchBinaryTree<K,T>{
     private TreeNode<K,T> root;
 
@@ -48,6 +51,54 @@ public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySear
     public boolean contains(K key) {
         return contains(key, root);
     }
+
+    @Override
+    public Mylist<T> inOrder() {
+        return inOrder(this.root, new MyLinkedList<T>());
+    }
+
+    public Mylist<T> inOrder(TreeNode<K, T> nodo, Mylist<T> lista){
+        if (nodo != null) {
+            inOrder(nodo.getLeft(), lista);
+            lista.add((T) nodo.getKey());
+            inOrder(nodo.getRight(), lista);
+        }
+        return lista;
+    }
+    @Override
+    public Mylist<T> preOrder() {
+        return preOrder(this.root, new MyLinkedList<T>());
+    }
+    public Mylist<T> preOrder(TreeNode<K, T> nodo, MyLinkedList<T> lista){
+        if (nodo != null) {
+            lista.add((T) nodo.getKey());
+            preOrder(nodo.getLeft(), lista);
+            preOrder(nodo.getRight(), lista);
+        }
+        return lista;
+    }
+
+    @Override
+    public Mylist<T> postOrder() {
+        return postOrder(this.root, new MyLinkedList<T>());
+    }
+
+    public Mylist<T> postOrder(TreeNode<K, T> nodo, Mylist<T> lista){
+        if (nodo != null) {
+            postOrder(nodo.getLeft(), lista);
+            postOrder(nodo.getRight(), lista);
+            lista.add((T) nodo.getKey());
+        }
+        return lista;
+    }
+
+
+
+    @Override
+    public void postOrder(Mylist<T> list) {
+
+    }
+
     private boolean contains(K key , TreeNode<K,T> root){
         boolean contains = false;
         if (root != null) {

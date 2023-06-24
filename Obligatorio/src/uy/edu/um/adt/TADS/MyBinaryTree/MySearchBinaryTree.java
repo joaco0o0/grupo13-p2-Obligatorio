@@ -7,4 +7,9 @@ public interface MySearchBinaryTree<K extends Comparable<K>,T> {
     void insert(K key, T value);
     void delete(K key);
     boolean contains(K key);
+    Mylist<T> inOrder();
+
+    Mylist<T> preOrder();
+
+    Mylist<T> postOrder();
 }

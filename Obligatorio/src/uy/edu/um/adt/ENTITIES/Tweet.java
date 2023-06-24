@@ -26,4 +26,12 @@ public class Tweet {
         return usuario;
     }
 
+    public Fecha getDate() {
+        return date;
+    }
+
+    public String getText() {
+        return text;
+    }
+
 }
