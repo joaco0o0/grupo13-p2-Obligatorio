@@ -51,12 +51,25 @@ public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySear
     public boolean contains(K key) {
         return contains(key, root);
     }
+    private boolean contains(K key, TreeNode<K,T> root) {
+        boolean contains = false;
+        if (root != null) {
+            int nValue = key.compareTo(root.getKey());
+            if (nValue == 0) {
+                contains = true;
+            } else if (nValue > 0) {
+                contains = contains(key, root.getRight());
+            } else {
+                contains = contains(key, root.getLeft());
+            }
+        }
+        return contains;
+    }
 
     @Override
     public Mylist<T> inOrder() {
         return inOrder(this.root, new MyLinkedList<T>());
     }
-
     public Mylist<T> inOrder(TreeNode<K, T> nodo, Mylist<T> lista){
         if (nodo != null) {
             inOrder(nodo.getLeft(), lista);
@@ -77,12 +90,10 @@ public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySear
         }
         return lista;
     }
-
     @Override
     public Mylist<T> postOrder() {
         return postOrder(this.root, new MyLinkedList<T>());
     }
-
     public Mylist<T> postOrder(TreeNode<K, T> nodo, Mylist<T> lista){
         if (nodo != null) {
             postOrder(nodo.getLeft(), lista);
@@ -90,27 +101,5 @@ public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySear
             lista.add((T) nodo.getKey());
         }
         return lista;
-    }
-
-
-
-    @Override
-    public void postOrder(Mylist<T> list) {
-
-    }
-
-    private boolean contains(K key , TreeNode<K,T> root){
-        boolean contains = false;
-        if (root != null) {
-            int nValue = key.compareTo(root.getKey());
-            if (nValue == 0) {
-                contains = true;
-            } else if (nValue > 0) {
-                contains = contains(key, root.getRight());
-            } else {
-                contains = contains(key, root.getLeft());
-            }
-        }
-        return contains;
     }
 }

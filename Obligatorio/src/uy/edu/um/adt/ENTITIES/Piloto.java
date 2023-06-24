@@ -20,5 +20,7 @@ public class Piloto {
     public void add1(){
         this.numero++;
     }
+
+
 }
 

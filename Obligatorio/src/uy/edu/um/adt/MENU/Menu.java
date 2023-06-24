@@ -1,6 +1,8 @@
 package uy.edu.um.adt.MENU;
 import java.io.IOException;
 import java.util.Scanner;
+
+import uy.edu.um.adt.CSV.IngresoDeDatos;
 import uy.edu.um.adt.CSV.Obligatorio;
 
 
@@ -8,7 +10,7 @@ public class Menu {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
-        Obligatorio obligatorio = new Obligatorio();
+        IngresoDeDatos obligatorio = new IngresoDeDatos();
 
         while (true) {
             mostrarMenu();
@@ -17,9 +19,9 @@ public class Menu {
             switch (eleccion) {
                 case "0":
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.IngresarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset.csv");
+                    obligatorio.IngresarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
                     System.out.println("Se cargaron los datos correctamente.");
-                    System.out.println("Cantidad de Hashtags: " +Obligatorio.getCantHashtags());
+                    System.out.println("Cantidad de Hashtags: " + obligatorio.getCantHashtags());
                     System.out.println("Cantidad de Tweets: "+obligatorio.getCantTweets());
                     System.out.println("Cantidad de Usuarios: "+obligatorio.getCantUsuarios());
                     System.out.println("Cantidad de Piolotos: "+obligatorio.getPilotos().size());
@@ -27,7 +29,12 @@ public class Menu {
 
                 case "1":
                     System.out.println("Ha seleccionado la opción 1.");
-
+                    System.out.println("Ingrese el mes  de la temporada :");
+                    String mes =  scanner.nextLine();
+                    System.out.println("Ingrese el dia de la temporada :");
+                    String dia =  scanner.nextLine();
+                    Integer diaInt = Integer.parseInt(dia);
+                    Integer mesInt = Integer.parseInt(mes);
                     break;
 
 

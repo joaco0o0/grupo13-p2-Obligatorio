@@ -11,7 +11,7 @@ import uy.edu.um.adt.TADS.MyHash.MyHashImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
 
-public class Obligatorio {
+public class IngresoDeDatos {
     static MyHash<Long, Tweet> tweets = new MyHashImpl<>(640000);
     static MyHash<String, Hashtag> hashtags = new MyHashImpl<>(45000);
     static MyHash<Long, Usuario> usuarios = new MyHashImpl<>(123000);
@@ -73,7 +73,7 @@ public class Obligatorio {
 
                 //Fecha tweet
                 String[] fechatweet = record.get(9).split(" ");
-                String[] fechaComponentsTweet = fechatweet[0].split("/");
+                String[] fechaComponentsTweet = fechatweet[0].split("[/-]");
                 Long anioTweet = Long.parseLong(fechaComponentsTweet[0]);
                 Long mesTweet = Long.parseLong(fechaComponentsTweet[1]);
                 Long diaTweet = Long.parseLong(fechaComponentsTweet[2]);
@@ -126,27 +126,6 @@ public class Obligatorio {
         }
     }
 
-    public static void ListarLos10PilotosMasMenionadosEnLaTemporada(int anio, int mes){
-        MySearchBinaryTree ArbolBinario = new MyBinarySearchTreeImpl();
-        for (Long i = 0L; i < cantTweets; i++) {
-            if(tweets.get(i).getDate().getMes() == mes && tweets.get(i).getDate().getAnio() == anio){
-                for (int j = 0; j <pilotos.size() ; j++) {
-                    if (tweets.get(i).getText().contains(pilotos.get(j).getNombre())){
-                        pilotos.get(j).add1();
-                    }
-                }
-            }
-        }
-        for (int i = 0; i <pilotos.size() ; i++) {
-            ArbolBinario.insert(pilotos.get(i).getNumero(),pilotos.get(i));
-        }
-
-
-    }
-
-
-
-
     public static long generarClaveUnica(String cadena) { //Asumiedo que no hay dos fechaas de creacion exactamente iguales esto genera claves diferentes
         long clave = 0;
         for (int i = 0; i < cadena.length(); i++) {
@@ -154,8 +133,6 @@ public class Obligatorio {
         }
         return clave;
     }
-
-
 }
 
 
