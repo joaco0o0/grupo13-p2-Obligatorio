@@ -6,6 +6,7 @@ import uy.edu.um.adt.TADS.MyStack.MyStack;
 public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
     private Node<T> first;
     private Node<T> last;
+    private int size = 0;
 
     public MyLinkedList() {
         this.first = null;
@@ -30,7 +31,7 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
                 this.last.setNext(elementToAdd);
             }
             this.last = elementToAdd;
-
+            size++;
         }
     }
     @Override
@@ -63,20 +64,13 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
                     }
                 }
             }
-
+            size++;
         }
     }
 
     @Override
     public int size() {
-
-        int size = 0;
-        Node<T> temp = this.first;
-        while (temp != null) {
-            size++;
-            temp = temp.getNext();
-        }
-        return size;
+        return this.size;
     }
 
     @Override
@@ -99,9 +93,9 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
                 if (temp == this.last) {
                     this.last = previous;
                 }
+                size--;
                 break;
             }
-
             previous = temp;
             temp = temp.getNext();
         }
@@ -124,7 +118,6 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
                 }
                 break;
             }
-
             previous = temp;
             temp = temp.getNext();
             tempIndex++;
@@ -172,6 +165,37 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
             tempPosition++;
         }
         return valueToReturn;
+    }
+
+    @Override
+    public void enqueueWithPriority(T value, int prioridad) {
+        if (value != null) {
+            Node<T> elementToAdd = new Node<>(value, prioridad);
+            Node<T> aux = this.first;
+            if (this.first == null) {
+                this.first = elementToAdd;
+                this.last = elementToAdd;
+            } else {
+                if (prioridad > this.first.getPriority()) {
+                    this.first.setPrevious(elementToAdd);
+                    this.first = elementToAdd;
+                    this.first.setNext(aux);
+                } else {
+                    while (aux.getNext() != null && prioridad <= aux.getNext().getPriority()) {
+                        aux = aux.getNext();
+                    }                                // se recorre la lista hasta encontrar el elemento con menor prioridad
+                    if (aux.getNext() == null) {
+                        aux.setNext(elementToAdd);
+                        this.last = elementToAdd;    // si la prioridad es mayor a todos los elementos se agrega al final
+                    } else {
+                        elementToAdd.setNext(aux.getNext());
+                        aux.getNext().setPrevious(elementToAdd);
+                        aux.setNext(elementToAdd);
+                    }
+                }
+            }
+            this.size++;
+        }
     }
 
     @Override
