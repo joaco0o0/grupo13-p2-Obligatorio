@@ -5,7 +5,7 @@ public class Fecha{
     private Long mes;
     private Long anio;
 
-    public Fecha(Long dia, Long mes, long anio){
+    public Fecha(Long dia, Long mes, Long anio){
         this.mes = mes;
         this.anio = anio;
         this.dia = dia;

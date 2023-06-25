@@ -30,6 +30,18 @@ public class Usuario {
         this.favoritos += favoritos;
     }
 
+    public Mylist<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj){

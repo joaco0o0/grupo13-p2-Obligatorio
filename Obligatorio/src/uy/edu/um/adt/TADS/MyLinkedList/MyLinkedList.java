@@ -159,6 +159,20 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
     }
 
     @Override
+    public void set(int index, T value) {
+        Node<T> temp = this.first;
+        int tempIndex = 0;
+        while (temp != null) {
+            if (tempIndex == index) {
+                temp.setValue(value);
+                break;
+            }
+            temp = temp.getNext();
+            tempIndex++;
+        }
+    }
+
+    @Override
     public T get(int position) {
         T valueToReturn = null;
         int tempPosition = 0;

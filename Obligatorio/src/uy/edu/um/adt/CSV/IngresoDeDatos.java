@@ -15,6 +15,7 @@ public class IngresoDeDatos {
     static MyHash<Long, Tweet> tweets = new MyHashImpl<>(640000);
     static MyHash<String, Hashtag> hashtags = new MyHashImpl<>(45000);
     static MyHash<Long, Usuario> usuarios = new MyHashImpl<>(123000);
+    static Mylist<Long> listaClaves = new MyLinkedList<>();
     static int cantTweets, cantUsuarios, cantHashtags;
     public static MyHash<Integer, Piloto> pilotos = new MyHashImpl<>(20);
 
@@ -28,6 +29,22 @@ public class IngresoDeDatos {
 
     public static int getCantHashtags() {
         return cantHashtags;
+    }
+
+    public static Mylist<Long> getListaClaves() {
+        return listaClaves;
+    }
+
+    public static MyHash<Long, Tweet> getTweets() {
+        return tweets;
+    }
+
+    public static MyHash<String, Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    public static MyHash<Long, Usuario> getUsuarios() {
+        return usuarios;
     }
 
     public static MyHash<Integer, Piloto> getPilotos() {
@@ -91,12 +108,15 @@ public class IngresoDeDatos {
                 Usuario usuario = new Usuario(userName, userCode, verified);
                 if(!usuarios.containsKey(userCode)){
                     usuarios.put(userCode, usuario);
+                    listaClaves.add(userCode);
                     cantUsuarios++;
                     Tweet tweet = new Tweet(tweetID, usuario, tweetText, retweeted, favoritos, fechaTweet, hashtagsTweet);
+                    usuario.addTweet(tweet);
                     tweets.put(tweetID, tweet);
                 }else {
                     Tweet tweet = new Tweet(tweetID, usuarios.get(userCode), tweetText, retweeted, favoritos, fechaTweet, hashtagsTweet);
                     tweets.put(tweetID, tweet);
+                    usuarios.get(userCode).addTweet(tweet);
                 }
                 cantTweets ++;
                 for(String hashtag: hashtagsArray){

@@ -2,8 +2,12 @@ package uy.edu.um.adt.MENU;
 import java.io.IOException;
 import java.util.Scanner;
 
+import uy.edu.um.adt.ENTITIES.Fecha;
+import uy.edu.um.adt.FUNCIONES.FuncionesImpl;
 import uy.edu.um.adt.CSV.IngresoDeDatos;
-import uy.edu.um.adt.CSV.Obligatorio;
+import uy.edu.um.adt.TADS.MyHash.MyHash;
+
+import static uy.edu.um.adt.CSV.IngresoDeDatos.*;
 
 
 public class Menu {
@@ -19,12 +23,13 @@ public class Menu {
             switch (eleccion) {
                 case "0":
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.IngresarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
+                    IngresarDatos("../obligatorio2023csv/f1_dataset.csv");
                     System.out.println("Se cargaron los datos correctamente.");
-                    System.out.println("Cantidad de Hashtags: " + obligatorio.getCantHashtags());
-                    System.out.println("Cantidad de Tweets: "+obligatorio.getCantTweets());
-                    System.out.println("Cantidad de Usuarios: "+obligatorio.getCantUsuarios());
-                    System.out.println("Cantidad de Piolotos: "+obligatorio.getPilotos().size());
+                    System.out.println("Cantidad de Hashtags: " + getCantHashtags());
+                    System.out.println("Cantidad de Tweets: "+ getCantTweets());
+                    System.out.println("Cantidad de Usuarios: "+ getCantUsuarios());
+                    System.out.println("Cantidad de Piolotos: "+ getPilotos().size());
+                    getTweets();
                     break;
 
                 case "1":
@@ -41,6 +46,9 @@ public class Menu {
 
                 case "2":
                     System.out.println("Ha seleccionado la opción 2.");
+                    FuncionesImpl funciones = new FuncionesImpl();
+                    funciones.usuariosMasTwits(getTweets(), getUsuarios(), getListaClaves());
+                    System.out.println("Se cargaron los datos correctamente.");
                     break;
 
                 case "3":
@@ -49,6 +57,13 @@ public class Menu {
 
                 case "4":
                     System.out.println("Ha seleccionado la opción 4.");
+                    System.out.println("Ingrese el dia que quieres consultar(YYYY-MM-DD) :");
+                    dia =  scanner.nextLine();
+                    String[] fechaComponentsTweet = dia.split("-");
+                    Long anioTweet = Long.parseLong(fechaComponentsTweet[0]);
+                    Long mesTweet = Long.parseLong(fechaComponentsTweet[1]);
+                    Long diaTweet = Long.parseLong(fechaComponentsTweet[2]);
+                    Fecha fechaTweet = new Fecha(anioTweet, mesTweet, diaTweet);
                     break;
 
                 case "5":

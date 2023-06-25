@@ -8,6 +8,7 @@ public interface Mylist<T> {
     void remove(T value);
     int findPosition(T value);
     int size();
+    void set(int index, T value);
 
     boolean isEmpty();
 
