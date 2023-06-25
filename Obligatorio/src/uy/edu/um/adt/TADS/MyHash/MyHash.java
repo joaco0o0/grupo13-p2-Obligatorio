@@ -7,4 +7,5 @@ public interface MyHash<K,T> {
     public int size();
     public T get(K key);
     public boolean containsValue(T value);
+
 }

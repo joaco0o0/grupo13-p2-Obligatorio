@@ -1,20 +1,21 @@
 package uy.edu.um.adt.ENTITIES;
 
+import uy.edu.um.adt.TADS.MyBinaryTree.MySearchBinaryTree;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 
 public class Tweet {
     private long tweetNumber;
-    private Usuario usuario;
+    private Long userCode;
     private String text;
     private boolean retweeted;
-    private Long favorites;
+    private int favorites;
     private Fecha date;
     private MyLinkedList<Hashtag> hashtags;
 
 
-    public Tweet(long tweetNumber, Usuario usuario, String text, boolean retweeted, Long favorites, Fecha date, MyLinkedList<Hashtag> Hashtags) {
+    public Tweet(long tweetNumber, long userCode, String text, boolean retweeted, int favorites, Fecha date, MyLinkedList<Hashtag> Hashtags) {
         this.tweetNumber = tweetNumber;
-        this.usuario = usuario;
+        this.userCode = userCode;
         this.text = text;
         this.retweeted = retweeted;
         this.favorites = favorites;
@@ -22,8 +23,24 @@ public class Tweet {
         this.hashtags = hashtags;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public long getTweetNumber() {
+        return tweetNumber;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public MyLinkedList<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    public Long getUserCode() {
+        return userCode;
     }
 
     public Fecha getDate() {
@@ -34,4 +51,7 @@ public class Tweet {
         return text;
     }
 
+    public Fecha getFecha() {
+        return date;
+    }
 }

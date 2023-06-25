@@ -21,6 +21,10 @@ public class Piloto {
         this.numero++;
     }
 
+    public void setCantidad(int cantidad){
+        this.numero = cantidad;
+    }
+
 
 }
 
