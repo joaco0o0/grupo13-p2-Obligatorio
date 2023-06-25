@@ -11,4 +11,5 @@ public interface MyHash<K,T> {
     public boolean containsValue(T value);
     public Mylist<T> values();
     public String[] keys();
+    public boolean contains(K key);
 }

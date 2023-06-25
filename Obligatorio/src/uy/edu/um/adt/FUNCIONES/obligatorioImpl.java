@@ -214,13 +214,34 @@ public class obligatorioImpl implements obligatorio {
         }
         return hashtagsDia;
     }
+    public static String hashtagMasRepetido(Mylist<String> hashtagsDeDia){
+        MyHash<String, Integer> hashtags = new MyHashImpl<>(hashtagsDeDia.size());
+        for (int i = 0; i < hashtagsDeDia.size(); i++) {
+            if (hashtags.contains(hashtagsDeDia.get(i))) {
+                hashtags.put(hashtagsDeDia.get(i), hashtags.get(hashtagsDeDia.get(i)) + 1);
+            } else {
+                hashtags.put(hashtagsDeDia.get(i), 1);
+            }
+        }
+        int max = 0;
+        String hashtagMasRepetido = "";
+        for (String key : hashtags.keys()) {
+            if (hashtags.get(key) > max) {
+                max = hashtags.get(key);
+                hashtagMasRepetido = key;
+            }
+        }
+        return hashtagMasRepetido;
+    }
     @Override
-    public void hashtagMasUsado(Fecha fecha) {
+    public void hashtagMasUsado(int dia, int mes, int anio) {
         MyHash<Long,Tweet> twits = this.getTweetsHash();
         MyHash<String, Hashtag> hashtags = this.getHashtagsHash();
         Mylist<Long> twitsClave = this.getListaClavesTwit();
-        Mylist<String> hashtagsDelDia = buscarHashtagsPorFecha(fecha.getDia(), fecha.getMes(), fecha.getAnio());
-
+        Mylist<String> hashtagsDelDia = buscarHashtagsPorFecha(dia, mes, anio);
+        hashtagsDelDia.remove("f1");
+        String hashtagMasRepetido = hashtagMasRepetido(hashtagsDelDia);
+        System.out.println("El hashtag más usado en el día " + dia + " del mes " + mes + " del año " + anio + " es: " + hashtagMasRepetido);
     }
     @Override
     public void topCuentasMasFavoritos() {
@@ -252,8 +273,23 @@ public class obligatorioImpl implements obligatorio {
     }
 
     @Override
-    public int cantidadDeTweetsPalabraFrase() {
-        return 0;
+    public int cantidadDeTweetsPalabraFrase(String palabraFrase) {
+        MyHash<Long, Tweet> tweets = this.tweetsHash;
+        int cantTweets = 0;
+        for (String key : tweets.keys()) {
+            try{
+                Tweet tweet = tweets.get(Long.parseLong(key));
+                if (tweet != null && tweet.getText().contains(palabraFrase)) {
+                    cantTweets++;
+                }
+            }catch(NumberFormatException e){
+                continue;
+            }
+        }
+        System.out.println("La cantidad de tweets que contienen la palabra/frase " + palabraFrase + " es: " + cantTweets);
+        return cantTweets;
+
     }
+
 
 }

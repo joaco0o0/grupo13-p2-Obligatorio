@@ -196,4 +196,13 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
         }
         return keys;
     }
+    @Override
+    public boolean contains(K value) {
+        for (int i = 0; i < capacity; i++) {
+            if(table[i] != null && table[i].getValue().equals(value)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -73,6 +73,7 @@ public class Menu {
                     int anioTweet1 = Integer.parseInt(fechaComponentsTweet1[0]);
                     int mesTweet1 = Integer.parseInt(fechaComponentsTweet1[1]);
                     int diaTweet1 = Integer.parseInt(fechaComponentsTweet1[2]);
+                    obligatorio.hashtagMasUsado(diaTweet1,mesTweet1,anioTweet1);
                     break;
 
                 case "5":

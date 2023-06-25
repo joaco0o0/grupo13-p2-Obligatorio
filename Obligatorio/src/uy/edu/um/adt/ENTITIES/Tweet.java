@@ -1,6 +1,7 @@
 package uy.edu.um.adt.ENTITIES;
 
 import uy.edu.um.adt.TADS.MyBinaryTree.MySearchBinaryTree;
+import uy.edu.um.adt.TADS.MyHash.MyHash;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 
 public class Tweet {
@@ -50,4 +51,5 @@ public class Tweet {
     public Fecha getFecha() {
         return date;
     }
+
 }
