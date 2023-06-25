@@ -2,45 +2,44 @@ package uy.edu.um.adt.MENU;
 import java.io.IOException;
 import java.util.Scanner;
 
-import uy.edu.um.adt.CSV.IngresoDeDatos;
-import uy.edu.um.adt.CSV.Obligatorio;
+import uy.edu.um.adt.FUNCIONES.FuncionesImpl;
 
 
 public class Menu {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
-        IngresoDeDatos obligatorio = new IngresoDeDatos();
-
+        FuncionesImpl funciones = new FuncionesImpl();
         while (true) {
             mostrarMenu();
             eleccion = obtenerEleccion(scanner);
 
             switch (eleccion) {
-                case "0":
+                case "0": //20 seg aprox.
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.IngresarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
+                    funciones.CargarDatos("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
                     System.out.println("Se cargaron los datos correctamente.");
-                    System.out.println("Cantidad de Hashtags: " + obligatorio.getCantHashtags());
-                    System.out.println("Cantidad de Tweets: "+obligatorio.getCantTweets());
-                    System.out.println("Cantidad de Usuarios: "+obligatorio.getCantUsuarios());
-                    System.out.println("Cantidad de Piolotos: "+obligatorio.getPilotos().size());
+
                     break;
 
                 case "1":
                     System.out.println("Ha seleccionado la opción 1.");
                     System.out.println("Ingrese el mes  de la temporada :");
-                    String mes =  scanner.nextLine();
-                    System.out.println("Ingrese el dia de la temporada :");
-                    String dia =  scanner.nextLine();
-                    Integer diaInt = Integer.parseInt(dia);
-                    Integer mesInt = Integer.parseInt(mes);
-                    break;
+                    int mes =  Integer.parseInt(scanner.nextLine());
+                    System.out.println("Ingrese el anio de la temporada :");
+                    int anio =  Integer.parseInt(scanner.nextLine());
+                    if(anio>2023 || anio<2021 || mes>12 || mes<1){
+                        System.out.println("Ingrese un mes y anio validos");
+                        break;
+                    }
+                    funciones.pilotosMasMencionados(anio,mes);
 
 
 
                 case "2":
                     System.out.println("Ha seleccionado la opción 2.");
+
+
                     break;
 
                 case "3":
