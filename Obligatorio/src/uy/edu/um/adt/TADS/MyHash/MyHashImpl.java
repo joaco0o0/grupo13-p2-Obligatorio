@@ -5,8 +5,6 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
     private HashNode[] table;
     private int contadorSize = 0;
 
-
-
     public MyHashImpl(int capacity) {
         this.capacity = capacity;
         this.table = new HashNode[capacity];
@@ -18,107 +16,68 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
         }
 
     }
-
     @Override
     public void put(K key, T value) {
-        int lugar = key.hashCode() % capacity;
-        if(lugar < 0){
-            lugar = lugar * -1;
-        }
+        int position = normalizeIndex(key.hashCode());
+
         HashNode<K, T> node = new HashNode<>(key, value);
-        if (table[lugar] == null || table[lugar].isDeleted()) {
-            table[lugar] = node;
+
+        if (table[position] == null || table[position].isDeleted()) {
+            table[position] = node;
             contadorSize++;
+            return;
+        }
 
-        } else {
-            int i = 1;
-            int newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-            if(newPosition < 0){
-                newPosition = newPosition * -1;
-            }
-            while (table[newPosition] != null && !table[newPosition].isDeleted() && i <= capacity) {
-                if (table[newPosition].getKey().equals(key)) {
-                    table[newPosition].setValue(value);
-                    return;
-                }
-                i++;
-                newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-                if(newPosition < 0){
-                    newPosition = newPosition * -1;
-                }
+        int i = 1;
+        int newPosition;
 
-            }
-            if (i > capacity) {
-                doubleSize();
-            }
-            if(table[newPosition] == null || table[newPosition].isDeleted()) {
+        while (i <= capacity) {
+            newPosition = normalizeIndex(position + linearCollision(i));
+
+            if (table[newPosition] == null || table[newPosition].isDeleted()) {
                 table[newPosition] = node;
-            } else{
-                this.put(key, value);
+                contadorSize++;
+                return;
             }
+
+            if (table[newPosition].getKey().equals(key)) {
+                table[newPosition].setValue(value);
+                return;
+            }
+
+            i++;
         }
 
+        doubleSize();
+        put(key, value);
     }
-    private void doubleSize() {
-        capacity *= 2;
-        HashNode[] oldTable = table;
-        table = new HashNode[capacity];
-        arrayfill();
-        for (int i = 0; i < oldTable.length; i++) {
-            if (oldTable[i] != null) {
-                put((K) oldTable[i].getKey(), (T) oldTable[i].getValue());
-            }
-        }
-    }
-    private int linearColision(int i) {
-        return i;
-    }
-
-
     @Override
     public boolean containsKey(K key) {
-        int lugar = key.hashCode() % capacity;
-        if(lugar < 0){
-            lugar = lugar * -1;
-        }
-        int i = 1;
-        if(table[lugar] == null){
+        int position = normalizeIndex(key.hashCode());
+        if (table[position] == null) {
             return false;
         }
-        else
-        if(table[lugar].getKey().equals(key)){
-            if(table[lugar].isDeleted()){
-                return false;
-            }
-            else {
-                return true;
-            }
+        if (table[position].getKey().equals(key) && !table[position].isDeleted()) {
+            return true;
         }
-        else{
-            int newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-            if(newPosition < 0){
-                newPosition = newPosition * -1;
-            }
-            while (i <= capacity && table[newPosition] != null && !table[newPosition].isDeleted() && !table[newPosition].getKey().equals(key)) {
-                i++;
-                newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-                if(newPosition < 0){
-                    newPosition = newPosition * -1;
-                }
+        int i = 1;
+        int newPosition;
 
-            }
+        while (i <= capacity) {
+            newPosition = normalizeIndex(position + linearCollision(i));
+
             if (table[newPosition] == null) {
                 return false;
             }
-            if (i <= capacity && table[newPosition].getKey().equals(key) && !table[newPosition].isDeleted()) {
+
+            if (table[newPosition].getKey().equals(key) && !table[newPosition].isDeleted()) {
                 return true;
             }
-            else{
-                return false;
-            }
+
+            i++;
         }
+        return false;
     }
-    //funcion que haga un contain pero del value
     @Override
     public boolean containsValue(T value) {
         for (int i = 0; i < capacity; i++) {
@@ -128,7 +87,6 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
         }
         return false;
     }
-
     @Override
     public void remove(K clave) {
         int lugar = clave.hashCode() % capacity;
@@ -164,46 +122,55 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
     public int size() {
         return contadorSize;
     }
-
     @Override
     public T get(K key) {
-        int lugar = key.hashCode() % capacity;
-        if(lugar < 0){
-            lugar = lugar * -1;
-        }
-        int i = 1;
-        if(table[lugar] == null){
+        int position = normalizeIndex(key.hashCode());
+
+        if (table[position] == null) {
             return null;
         }
-        else
-        if(table[lugar].getKey().equals(key)){
-            if(table[lugar].isDeleted()){
-                return null;
-            }
-            else {
-                return (T) table[lugar].getValue();
-            }
+
+        if (table[position].getKey().equals(key) && !table[position].isDeleted()) {
+            return (T) table[position].getValue();
         }
-        else {
-            int newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-            if(newPosition < 0){
-                newPosition = newPosition * -1;
-            }
-            while (i <= capacity && table[newPosition] != null && !table[newPosition].isDeleted() && !table[newPosition].getKey().equals(key)) {
-                i++;
-                newPosition = ((key.hashCode() + linearColision(i)) % capacity);
-                if(newPosition < 0){
-                    newPosition = newPosition * -1;
-                }
-            }
+
+        int i = 1;
+        int newPosition;
+
+        while (i <= capacity) {
+            newPosition = normalizeIndex(position + linearCollision(i));
+
             if (table[newPosition] == null || table[newPosition].isDeleted()) {
                 return null;
             }
 
-            return (T) table[newPosition].getValue();
+            if (table[newPosition].getKey().equals(key)) {
+                return (T) table[newPosition].getValue();
+            }
+
+            i++;
+        }
+
+        return null;
+    }
+    private int normalizeIndex(int index) {
+        return (index % capacity + capacity) % capacity;
+    }
+    private int linearCollision(int attempt) {
+        return attempt;
+    }
+    private void doubleSize() {
+        capacity *= 2;
+        HashNode[] oldTable = table;
+        table = new HashNode[capacity];
+        arrayfill();
+        for (int i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] != null) {
+                put((K) oldTable[i].getKey(), (T) oldTable[i].getValue());
+            }
         }
     }
-
-
-
+    private int linearColision(int i) {
+        return i;
+    }
 }

@@ -50,5 +50,4 @@ public class Node<T> {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
 }

@@ -17,7 +17,7 @@ public class IngresoDeDatos {
     static MyHash<Long, Usuario> usuarios = new MyHashImpl<>(123000);
     static Mylist<Long> listaClaves = new MyLinkedList<>();
     static int cantTweets, cantUsuarios, cantHashtags;
-    public static MyHash<Integer, Piloto> pilotos = new MyHashImpl<>(20);
+    public static Mylist<Piloto> pilotos = new MyLinkedList<>();
 
     public static int getCantTweets() {
         return cantTweets;
@@ -47,111 +47,105 @@ public class IngresoDeDatos {
         return usuarios;
     }
 
-    public static MyHash<Integer, Piloto> getPilotos() {
+    public static Mylist<Piloto> getPilotos() {
         return pilotos;
     }
 
     public static void IngresarDatos(String ruta_Archivo) {
-        try(CSVParser par = new CSVParser(new FileReader(ruta_Archivo), CSVFormat.DEFAULT)){
-            par.iterator().next();
-            int fila = 1;
-            cantHashtags = 0;
+        try (CSVParser parser = new CSVParser(new FileReader(ruta_Archivo), CSVFormat.DEFAULT)) {
+            parser.iterator().next();
+            int fila = 0;
             cantTweets = 0;
-            cantUsuarios = 0;
-            for(CSVRecord record: par){
-                //Fecha usuario creado
-                String fechaUsuario = record.get(4);
-                Long userCode = generarClaveUnica(fechaUsuario);
-
-                //Nombre usuario
-                String userName = record.get(3);
-
-                //Usuario Verificado
-                boolean verified = Boolean.parseBoolean(record.get(8));
-
-                //favoritos del tweet (likes)
-                Long favoritos;
+            int cantUsuarios = 0;
+            for (CSVRecord record : parser) {
+                //Usuario
+                String nombre = record.get(1);
+                String fechaCreado = record.get(4);
+                long userCode = generarClaveUnica(fechaCreado);
+                boolean verificado;
                 try {
-                    if (record.get(7).contains(".")) {
-                        double doubleValue = Double.parseDouble(record.get(7));
-                        favoritos = Math.round(doubleValue);
-                    } else {
-                        favoritos = Long.parseLong(record.get(7));
-                    }
+                    verificado = Boolean.parseBoolean(record.get(8));
                 } catch (NumberFormatException e) {
                     continue;
                 }
 
-                //Tweet ID
-                Long tweetID = Long.parseLong(record.get(0));
-
-                //Tweet text
+                //Tweet
+                long tweetCode = fila;
                 String tweetText = record.get(10);
-
-                //Fecha tweet
-                String[] fechatweet = record.get(9).split(" ");
-                String[] fechaComponentsTweet = fechatweet[0].split("[/-]");
-                Long anioTweet = Long.parseLong(fechaComponentsTweet[0]);
-                Long mesTweet = Long.parseLong(fechaComponentsTweet[1]);
-                Long diaTweet = Long.parseLong(fechaComponentsTweet[2]);
-                Fecha fechaTweet = new Fecha(anioTweet, mesTweet, diaTweet);
-
-                //Is retweeted
-                boolean retweeted = Boolean.parseBoolean(record.get(13));
+                boolean retweet;
+                try {
+                    retweet = Boolean.parseBoolean(record.get(13));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                int favoritos;
+                try {
+                    if (record.get(7).contains(".")) {
+                        double doubleValue = Double.parseDouble(record.get(7));
+                        favoritos = (int) Math.round(doubleValue);
+                    } else {
+                        favoritos = Integer.parseInt(record.get(7));
+                    }
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                Fecha fechaTweet;
+                try {
+                    String fechatweet = record.get(9).split(" ")[0];
+                    String[] fechaComponents = fechatweet.split("[/-]");
+                    long mes = Long.parseLong(fechaComponents[1]);
+                    long dia = Long.parseLong(fechaComponents[2]);
+                    long anio = Long.parseLong(fechaComponents[0]);
+                    fechaTweet = new Fecha(anio, mes, dia);
+                }catch (NumberFormatException e){
+                    System.out.println("Tweet rechazado: " + fila);
+                    continue;
+                }
 
                 //Hashtags
                 String hashtagsString = record.get(11).replaceAll("[\\[\\]\"]", "").replaceAll("\\s", "");
-                String[] hashtagsArray = hashtagsString.split(",");
-                MyLinkedList<Hashtag> hashtagsTweet = new MyLinkedList<>();
+                MyLinkedList<Hashtag> listahashtag = new MyLinkedList<>();
+                for (String hashtagUnico : hashtagsString.split(",")){
+                    listahashtag.add(new Hashtag(hashtagUnico));
+                    hashtags.put(hashtagUnico, new Hashtag(hashtagUnico));
+                }
 
-                // Ingesar datos
-                Usuario usuario = new Usuario(userName, userCode, verified);
-                if(!usuarios.containsKey(userCode)){
-                    usuarios.put(userCode, usuario);
-                    listaClaves.add(userCode);
+                //Ingresar Datos
+                Tweet newtweet = new Tweet(tweetCode, userCode, tweetText , retweet, favoritos, fechaTweet,listahashtag);
+                cantTweets++;
+                tweets.put(tweetCode, newtweet);
+                if (!usuarios.containsKey(userCode)) {
+                    Usuario usuarioTemp = new Usuario(nombre, userCode, verificado);
+                    usuarios.put(userCode, usuarioTemp);
                     cantUsuarios++;
-                    Tweet tweet = new Tweet(tweetID, usuario, tweetText, retweeted, favoritos, fechaTweet, hashtagsTweet);
-                    usuario.addTweet(tweet);
-                    tweets.put(tweetID, tweet);
-                }else {
-                    Tweet tweet = new Tweet(tweetID, usuarios.get(userCode), tweetText, retweeted, favoritos, fechaTweet, hashtagsTweet);
-                    tweets.put(tweetID, tweet);
-                    usuarios.get(userCode).addTweet(tweet);
+                    usuarios.get(userCode).addTweet(newtweet);
+                    fila ++;
+                }else{
+                    usuarios.get(userCode).addTweet(newtweet);
                 }
-                cantTweets ++;
-                for(String hashtag: hashtagsArray){
-                    Hashtag hashtagNuevo = new Hashtag(hashtag);
-                    if(!hashtags.containsKey(hashtagNuevo.getId())){
-                        hashtags.put(hashtagNuevo.getId(), hashtagNuevo);
-                        cantHashtags++;
-                    }
+            }
+            String archivo = "Obligatorio/src/uy/edu/um/adt/CSV/drivers.txt";
+            try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
+                String piloto;
+                int linea = 0;
+                while ((piloto = lector.readLine()) != null) {
+                    pilotos.add( new Piloto(piloto));
+                    linea++;
                 }
-                fila++;
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String archivo = "Obligatorio/src/uy/edu/um/adt/CSV/drivers.txt";
-        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
-            String fila;
-            int linea = 0;
-            while ((fila = lector.readLine()) != null) {
-                pilotos.put(linea, new Piloto(fila));
-                linea++;
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
+    //hacer las fechas id unico
+    public static Long generarClaveUnica(String cadena) {
+        long hash = cadena.hashCode();
+        long hashPositivo = Math.abs(hash);
+        return  hashPositivo;
 
-    public static long generarClaveUnica(String cadena) { //Asumiedo que no hay dos fechaas de creacion exactamente iguales esto genera claves diferentes
-        long clave = 0;
-        for (int i = 0; i < cadena.length(); i++) {
-            clave = clave * 10 + (int) cadena.charAt(i);
-        }
-        return clave;
     }
 }
 

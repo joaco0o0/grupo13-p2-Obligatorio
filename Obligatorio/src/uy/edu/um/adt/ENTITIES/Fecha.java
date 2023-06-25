@@ -1,6 +1,6 @@
 package uy.edu.um.adt.ENTITIES;
 
-public class Fecha{
+public class Fecha {
     private Long dia;
     private Long mes;
     private Long anio;
@@ -12,16 +12,24 @@ public class Fecha{
 
     }
 
-    public Long getDia(){
+    public Long getDia() {
         return dia;
     }
 
-    public Long getMes(){
+    public Long getMes() {
         return mes;
     }
 
-    public Long getAnio(){
+    public Long getAnio() {
         return anio;
     }
 
+    public boolean contains(int mes, int anio) {
+        if (this.mes == mes && this.anio == anio) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

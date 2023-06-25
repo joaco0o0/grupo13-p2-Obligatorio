@@ -1,15 +1,12 @@
 package uy.edu.um.adt.FUNCIONES;
-
 import uy.edu.um.adt.ENTITIES.ClaveYTwit;
 import uy.edu.um.adt.ENTITIES.Hashtag;
 import uy.edu.um.adt.ENTITIES.Tweet;
 import uy.edu.um.adt.ENTITIES.Usuario;
 import uy.edu.um.adt.TADS.MyHash.MyHash;
-import uy.edu.um.adt.TADS.MyHeap.MyHeap;
-import uy.edu.um.adt.TADS.MyHeap.MyHeapImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
-import uy.edu.um.adt.CSV.IngresoDeDatos;
+
 
 public class FuncionesImpl implements Funciones {
     public static void quickSortByTwit(MyLinkedList<ClaveYTwit> list) {
@@ -51,8 +48,6 @@ public class FuncionesImpl implements Funciones {
         list.set(i, list.get(j));
         list.set(j, temp);
     }
-
-
     @Override
     public void usuariosMasTwits(MyHash<Long, Tweet> twits, MyHash<Long, Usuario> usuarios, Mylist<Long> listaClaves) {
         Mylist<ClaveYTwit> listaClavesYTwits = new MyLinkedList<>();
@@ -75,7 +70,6 @@ public class FuncionesImpl implements Funciones {
                 quickSortByTwit(lista15ClavesYTwitsOrdenada);
             }
         }
-
         for (int i = 1; i < lista15ClavesYTwitsOrdenada.size()+1; i++) {
             String username = usuarios.get(lista15ClavesYTwitsOrdenada.get(i).getClave()).getUserName();
             if (usuarios.get(lista15ClavesYTwitsOrdenada.get(i).getClave()).isVerified()) {
@@ -97,4 +91,5 @@ public class FuncionesImpl implements Funciones {
     public int cantidadDeTweetsPalabraFrase() {
         return 0;
     }
+
 }
