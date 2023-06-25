@@ -1,5 +1,8 @@
 package uy.edu.um.adt.TADS.MyHash;
 
+import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
+import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
+
 public class MyHashImpl<K,T> implements MyHash<K,T> {
     private int capacity;
     private HashNode[] table;
@@ -172,5 +175,25 @@ public class MyHashImpl<K,T> implements MyHash<K,T> {
     }
     private int linearColision(int i) {
         return i;
+    }
+    @Override
+    public Mylist<T> values() {
+        Mylist<T> lista = new MyLinkedList<>();
+        for (int i = 0; i < capacity; i++) {
+            if(table[i] != null && !table[i].isDeleted()){
+                lista.add((T) table[i].getValue());
+            }
+        }
+        return lista;
+    }
+    @Override
+    public String[] keys() {
+        String[] keys = new String[capacity];
+        for (int i = 0; i < capacity; i++) {
+            if(table[i] != null && !table[i].isDeleted()){
+                keys[i] = table[i].getKey().toString();
+            }
+        }
+        return keys;
     }
 }

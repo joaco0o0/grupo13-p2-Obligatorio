@@ -12,20 +12,29 @@ public class Fecha {
 
     }
 
-    public Long getDia() {
-        return dia;
+    public int getDia() {
+        return Integer.parseInt(dia.toString());
     }
 
-    public Long getMes() {
-        return mes;
+    public int getMes() {
+        return Integer.parseInt(mes.toString());
     }
 
-    public Long getAnio() {
-        return anio;
+    public int getAnio() {
+        return Integer.parseInt(anio.toString());
     }
 
     public boolean contains(int mes, int anio) {
         if (this.mes == mes && this.anio == anio) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean containsDia(int dia, int mes, int anio) {
+        if (this.mes == mes && this.anio == anio && this.dia == dia) {
             return true;
 
         } else {

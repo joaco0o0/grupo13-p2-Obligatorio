@@ -13,7 +13,7 @@ public class Tweet {
     private MyLinkedList<Hashtag> hashtags;
 
 
-    public Tweet(long tweetNumber, long userCode, String text, boolean retweeted, int favorites, Fecha date, MyLinkedList<Hashtag> Hashtags) {
+    public Tweet(long tweetNumber, long userCode, String text, boolean retweeted, int favorites, Fecha date, MyLinkedList<Hashtag> hashtags) {
         this.tweetNumber = tweetNumber;
         this.userCode = userCode;
         this.text = text;
@@ -41,10 +41,6 @@ public class Tweet {
 
     public Long getUserCode() {
         return userCode;
-    }
-
-    public Fecha getDate() {
-        return date;
     }
 
     public String getText() {

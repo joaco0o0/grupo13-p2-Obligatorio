@@ -1,11 +1,12 @@
 package uy.edu.um.adt.MENU;
 import java.io.IOException;
 import java.util.Scanner;
+
+import uy.edu.um.adt.CSV.CSVreader;
 import uy.edu.um.adt.ENTITIES.Fecha;
-import uy.edu.um.adt.FUNCIONES.FuncionesImpl;
-import uy.edu.um.adt.CSV.IngresoDeDatos;
+import uy.edu.um.adt.FUNCIONES.obligatorio;
+import uy.edu.um.adt.FUNCIONES.obligatorioImpl;
 import uy.edu.um.adt.TADS.MyHash.MyHash;
-import static uy.edu.um.adt.CSV.IngresoDeDatos.*;
 
 
 
@@ -14,7 +15,8 @@ public class Menu {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
-        FuncionesImpl funciones = new FuncionesImpl();
+        CSVreader csvReader = new CSVreader();
+        obligatorioImpl obligatorio = new obligatorioImpl();
         while (true) {
             mostrarMenu();
             eleccion = obtenerEleccion(scanner);
@@ -22,12 +24,11 @@ public class Menu {
             switch (eleccion) {
                 case "0": //20 seg aprox.
                     System.out.println("Ha seleccionado la opción 0.");
-                    IngresarDatos("../obligatorio2023csv/f1_dataset.csv");
-                    System.out.println("Cantidad de Hashtags: " + getHashtags().size());
-                    System.out.println("Cantidad de Tweets: "+ getTweets().size());
-                    System.out.println("Cantidad de Usuarios: "+ getUsuarios().size());
-                    System.out.println("Cantidad de Piolotos: "+ getPilotos().size());
-                    getTweets();
+                    obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
+                    System.out.println("Cantidad de Hashtags: " + obligatorio.getHashtagsHash().size());
+                    System.out.println("Cantidad de Tweets: "+ obligatorio.getTweetsHash().size());
+                    System.out.println("Cantidad de Usuarios: "+ obligatorio.getUsuarios().size());
+                    System.out.println("Cantidad de Piolotos: "+ obligatorio.getPilotos().size());
                     System.out.println("Se cargaron los datos correctamente.");
 
                     break;
@@ -48,28 +49,35 @@ public class Menu {
 
                 case "2":
                     System.out.println("Ha seleccionado la opción 2.");
-                    funciones.usuariosMasTwits(getTweets(), getUsuarios(), getListaClaves());
+                    obligatorio.usuariosMasTwits();
                     System.out.println("Se cargaron los datos correctamente.");
 
                     break;
 
                 case "3":
                     System.out.println("Ha seleccionado la opción 3.");
+                    System.out.println("Ingrese el dia que quieres consultar(YYYY-MM-DD) :");
+                    String dia =  scanner.nextLine();
+                    String[] fechaComponentsTweet = dia.split("-");
+                    int anioTweet = Integer.parseInt(fechaComponentsTweet[0]);
+                    int mesTweet = Integer.parseInt(fechaComponentsTweet[1]);
+                    int diaTweet = Integer.parseInt(fechaComponentsTweet[2]);
+                    obligatorio.cantHashtagsDistintos(diaTweet,mesTweet,anioTweet);
                     break;
 
                 case "4":
                     System.out.println("Ha seleccionado la opción 4.");
                     System.out.println("Ingrese el dia que quieres consultar(YYYY-MM-DD) :");
-                    String dia =  scanner.nextLine();
-                    String[] fechaComponentsTweet = dia.split("-");
-                    Long anioTweet = Long.parseLong(fechaComponentsTweet[0]);
-                    Long mesTweet = Long.parseLong(fechaComponentsTweet[1]);
-                    Long diaTweet = Long.parseLong(fechaComponentsTweet[2]);
-                    Fecha fechaTweet = new Fecha(anioTweet, mesTweet, diaTweet);
+                    String dia1 =  scanner.nextLine();
+                    String[] fechaComponentsTweet1 = dia1.split("-");
+                    int anioTweet1 = Integer.parseInt(fechaComponentsTweet1[0]);
+                    int mesTweet1 = Integer.parseInt(fechaComponentsTweet1[1]);
+                    int diaTweet1 = Integer.parseInt(fechaComponentsTweet1[2]);
                     break;
 
                 case "5":
                     System.out.println("Ha seleccionado la opción 5.");
+                    obligatorio.topCuentasMasFavoritos();
                     break;
 
                 case "6":
