@@ -7,6 +7,7 @@ import uy.edu.um.adt.TADS.MyHash.MyHash;
 import uy.edu.um.adt.TADS.MyHash.MyHashImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
+import uy.edu.um.adt.TADS.MyQueue.MyQueue;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -72,6 +73,7 @@ public class obligatorioImpl implements obligatorio {
         return usuariosHash;
     }
 
+    @Override
     public MyHash<Long, Tweet> getTweetsHash() {
         return tweetsHash;
     }
@@ -90,19 +92,6 @@ public class obligatorioImpl implements obligatorio {
 
     public Mylist<Usuario> getUsuarios() {
         return usuarios;
-    }
-
-    public static void main(String[] args) {
-        obligatorioImpl obligatorio = new obligatorioImpl();
-        obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
-        System.out.println(obligatorio.getPilotos().size());
-        System.out.println(obligatorio.getTweets().size());
-        System.out.println(obligatorio.getUsuarios().size());
-        System.out.println(obligatorio.getHashtagsHash().size());
-        System.out.println(obligatorio.getTweetsHash().size());
-        System.out.println(obligatorio.getUsuariosHash().size());
-        System.out.println(obligatorio.getListaClaves().size());
-
     }
 
     public static void quickSortByTwit(MyLinkedList<ClaveYTwit> list) {
@@ -144,6 +133,26 @@ public class obligatorioImpl implements obligatorio {
         list.set(i, list.get(j));
         list.set(j, temp);
     }
+
+    @Override
+    public void PilotosMasMencionados(int anio, int mes) {
+        MyQueue<Piloto> queue = new MyLinkedList<>();
+        Mylist<Tweet> tweetsAMirar =  ObtenerTweetsDelMes(mes, this.tweets);
+        for (int i = 0; i < this.pilotos.size(); i++) {
+            if (this.pilotos.get(i) == null) {
+                System.out.println("Piloto nulo");
+            } else {
+                int num = numeroTweetsConPalabra(this.pilotos.get(i).getNombre(), tweetsAMirar);
+                queue.enqueueWithPriority(this.pilotos.get(i), num);
+                this.pilotos.get(i).setCantidad(num);
+
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            System.out.println(queue.get(i).getNombre() + " " + queue.get(i).getNumero());
+        }
+    }
+
     @Override
     public void usuariosMasTwits() {
         Mylist<ClaveYTwit> listaClavesYTwits = new MyLinkedList<>();
@@ -193,11 +202,10 @@ public class obligatorioImpl implements obligatorio {
     }
 
     public Mylist<String> buscarHashtagsPorFecha(int dia, int mes, int anio) {
-        MyHash<String, Hashtag> hashtags = this.hashtagsHash;
         MyHash<Long, Tweet> tweets = this.tweetsHash;
         Mylist<String> hashtagsDia = new MyLinkedList<>();
         for (String key : tweets.keys()) {
-            try{
+            try {
                 Tweet tweet = tweets.get(Long.parseLong(key));
                 if (tweet != null && tweet.getFecha().containsDia(anio, mes, dia)) {
                     MyLinkedList<Hashtag> tweetHashtags = tweet.getHashtags();
@@ -208,12 +216,12 @@ public class obligatorioImpl implements obligatorio {
                         }
                     }
                 }
-            }catch (NumberFormatException e){
-                continue;
+            } catch (NumberFormatException e) {
             }
         }
         return hashtagsDia;
     }
+
     @Override
     public void hashtagMasUsado(Fecha fecha) {
         MyHash<Long,Tweet> twits = this.getTweetsHash();
@@ -256,4 +264,34 @@ public class obligatorioImpl implements obligatorio {
         return 0;
     }
 
+    @Override
+    public int numeroTweetsConPalabra(String Palabra, Mylist<Tweet> tweetsAMirar){
+        int contador=0;
+        for (int i = 0; i < tweetsAMirar.size(); i++) {
+            if(tweetsAMirar.get(i).getText().contains(Palabra)){
+                contador++;
+            }
+        }
+        return contador;
+    }
+    @Override
+    public Mylist<Tweet> ObtenerTweetsDelMes(int mes, Mylist<Tweet> tweetsTotal){
+        Mylist<Tweet> tweetsDelMes = new MyLinkedList<>();
+        for (int i = 0; i < tweetsTotal.size(); i++) {
+            if(tweetsTotal.get(i).getFecha().getMes()==mes){
+                tweetsDelMes.add(tweetsTotal.get(i));
+            }
+        }
+        return tweetsDelMes;
+    }
+    @Override
+    public Mylist<Tweet> ObtenerTweetsDelAnio(int Anio, Mylist<Tweet> tweetsTotal){
+        Mylist<Tweet> tweetsDelAnio = new MyLinkedList<>();
+        for (int i = 0; i < tweetsTotal.size(); i++) {
+            if(tweetsTotal.get(i).getFecha().getAnio()==Anio){
+                tweetsDelAnio.add(tweetsTotal.get(i));
+            }
+        }
+        return tweetsDelAnio;
+    }
 }

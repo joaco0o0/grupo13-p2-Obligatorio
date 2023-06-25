@@ -7,6 +7,7 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
     private Node<T> first;
     private Node<T> last;
     private int size = 0;
+    private int prioridad = 0;
 
     public MyLinkedList() {
         this.first = null;
@@ -179,6 +180,11 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
             tempPosition++;
         }
         return valueToReturn;
+    }
+
+    @Override
+    public int getPrioridad(int index) {
+        return prioridad;
     }
 
     @Override

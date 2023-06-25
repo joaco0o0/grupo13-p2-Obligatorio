@@ -15,7 +15,6 @@ public class Menu {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
-        CSVreader csvReader = new CSVreader();
         obligatorioImpl obligatorio = new obligatorioImpl();
         while (true) {
             mostrarMenu();
@@ -24,7 +23,8 @@ public class Menu {
             switch (eleccion) {
                 case "0": //20 seg aprox.
                     System.out.println("Ha seleccionado la opción 0.");
-                    obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
+                    System.out.println("Cargando datos...");
+                    obligatorio.cargarTweets("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
                     System.out.println("Cantidad de Hashtags: " + obligatorio.getHashtagsHash().size());
                     System.out.println("Cantidad de Tweets: "+ obligatorio.getTweetsHash().size());
                     System.out.println("Cantidad de Usuarios: "+ obligatorio.getUsuarios().size());
@@ -39,11 +39,15 @@ public class Menu {
                     int mes =  Integer.parseInt(scanner.nextLine());
                     System.out.println("Ingrese el anio de la temporada :");
                     int anio =  Integer.parseInt(scanner.nextLine());
-                    if(anio>2023 || anio<2021 || mes>12 || mes<1){
-                        System.out.println("Ingrese un mes y anio validos");
+                    if(anio == 2021 && mes <= 12 && mes > 6){
+                        obligatorio.PilotosMasMencionados(anio,mes);
+                        break;
+                    } else if (anio == 2022 && mes >= 1 && mes < 7) {
+                        obligatorio.PilotosMasMencionados(anio,mes);
                         break;
                     }
-                    //funciones.pilotosMasMencionados(anio,mes);
+                    System.out.println("Ingrese un mes y anio validos");
+                    break;
 
 
 
@@ -82,6 +86,11 @@ public class Menu {
 
                 case "6":
                     System.out.println("Ha seleccionado la opción 6.");
+                    System.out.println(obligatorio.numeroTweetsConPalabra("Hamilton", obligatorio.getTweets()));
+                    System.out.println(obligatorio.numeroTweetsConPalabra("Verstappen", obligatorio.getTweets()));
+                    System.out.println(obligatorio.ObtenerTweetsDelAnio(2021, obligatorio.getTweets()).size());
+                    System.out.println(obligatorio.ObtenerTweetsDelAnio(2022, obligatorio.getTweets()).size());
+                    System.out.println(obligatorio.ObtenerTweetsDelMes(1, obligatorio.getTweets()).size());
                     break;
                 case "7":
                     System.out.println("Saliendo del menú...");

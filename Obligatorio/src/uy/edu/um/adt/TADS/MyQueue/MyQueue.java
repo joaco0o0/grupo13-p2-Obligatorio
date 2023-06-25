@@ -8,5 +8,7 @@ public interface MyQueue<T> {
     int size();
     T get(int index);
 
+    int getPrioridad(int index);
+
 
 }
