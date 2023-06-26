@@ -1,12 +1,8 @@
 package uy.edu.um.adt.MENU;
 import java.io.IOException;
 import java.util.Scanner;
-
-import uy.edu.um.adt.CSV.CSVreader;
-import uy.edu.um.adt.ENTITIES.Fecha;
-import uy.edu.um.adt.FUNCIONES.obligatorio;
 import uy.edu.um.adt.FUNCIONES.obligatorioImpl;
-import uy.edu.um.adt.TADS.MyHash.MyHash;
+
 
 
 

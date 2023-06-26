@@ -2,7 +2,6 @@ package uy.edu.um.adt.FUNCIONES;
 
 import uy.edu.um.adt.CSV.CSVreader;
 import uy.edu.um.adt.ENTITIES.*;
-import uy.edu.um.adt.TADS.MyBinaryTree.MyBinarySearchTreeImpl;
 import uy.edu.um.adt.TADS.MyHash.MyHash;
 import uy.edu.um.adt.TADS.MyHash.MyHashImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
