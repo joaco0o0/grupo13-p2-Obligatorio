@@ -7,6 +7,7 @@ import uy.edu.um.adt.TADS.MyHash.MyHash;
 import uy.edu.um.adt.TADS.MyHash.MyHashImpl;
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
+import uy.edu.um.adt.TADS.MyQueue.MyQueue;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -76,7 +77,7 @@ public class obligatorioImpl implements obligatorio {
         return tweetsHash;
     }
 
-    public MyHash getHashtagsHash() {
+    public MyHash<String, Hashtag> getHashtagsHash() {
         return hashtagsHash;
     }
 
@@ -90,19 +91,6 @@ public class obligatorioImpl implements obligatorio {
 
     public Mylist<Usuario> getUsuarios() {
         return usuarios;
-    }
-
-    public static void main(String[] args) {
-        obligatorioImpl obligatorio = new obligatorioImpl();
-        obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
-        System.out.println(obligatorio.getPilotos().size());
-        System.out.println(obligatorio.getTweets().size());
-        System.out.println(obligatorio.getUsuarios().size());
-        System.out.println(obligatorio.getHashtagsHash().size());
-        System.out.println(obligatorio.getTweetsHash().size());
-        System.out.println(obligatorio.getUsuariosHash().size());
-        System.out.println(obligatorio.getListaClaves().size());
-
     }
 
     public static void quickSortByTwit(MyLinkedList<ClaveYTwit> list) {
@@ -144,6 +132,52 @@ public class obligatorioImpl implements obligatorio {
         list.set(i, list.get(j));
         list.set(j, temp);
     }
+    public Mylist<Tweet> ObtenerTweetsDelMes(int mes, Mylist<Tweet> tweetsTotal){
+        Mylist<Tweet> tweetsDelMes = new MyLinkedList<>();
+        for (int i = 0; i < tweetsTotal.size(); i++) {
+            if(tweetsTotal.get(i).getFecha().getMes()==mes){
+                tweetsDelMes.add(tweetsTotal.get(i));
+            }
+        }
+        return tweetsDelMes;
+    }
+    public Mylist<Tweet> ObtenerTweetsDelAnio(int Anio, Mylist<Tweet> tweetsTotal){
+        Mylist<Tweet> tweetsDelAnio = new MyLinkedList<>();
+        for (int i = 0; i < tweetsTotal.size(); i++) {
+            if(tweetsTotal.get(i).getFecha().getAnio()==Anio){
+                tweetsDelAnio.add(tweetsTotal.get(i));
+            }
+        }
+        return tweetsDelAnio;
+    }
+    public int numeroTweetsConPalabra(String Palabra, Mylist<Tweet> tweetsAMirar){
+        int contador=0;
+        for (int i = 0; i < tweetsAMirar.size(); i++) {
+            if(tweetsAMirar.get(i).getText().contains(Palabra)){
+                contador++;
+            }
+        }
+        return contador;
+    }
+    @Override
+    public void PilotosMasMencionados(int anio, int mes) {
+        MyQueue<Piloto> queue = new MyLinkedList<>();
+        Mylist<Tweet> tweetsAMirar =  ObtenerTweetsDelMes(mes, this.tweets);
+        for (int i = 0; i < this.pilotos.size(); i++) {
+            if (this.pilotos.get(i) == null) {
+                System.out.println("Piloto nulo");
+            } else {
+                int num = numeroTweetsConPalabra(this.pilotos.get(i).getNombre(), tweetsAMirar);
+                queue.enqueueWithPriority(this.pilotos.get(i), num);
+                this.pilotos.get(i).setCantidad(num);
+
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            System.out.println(queue.get(i).getNombre() + " " + queue.get(i).getNumero());
+        }
+    }
+
     @Override
     public void usuariosMasTwits() {
         Mylist<ClaveYTwit> listaClavesYTwits = new MyLinkedList<>();
@@ -247,11 +281,11 @@ public class obligatorioImpl implements obligatorio {
     public void topCuentasMasFavoritos() {
         MyBinarySearchTreeImpl<Integer, Usuario> binaryTree = new MyBinarySearchTreeImpl<>();
         MyHash<Long, Usuario> usuarios = this.usuariosHash;
-        System.out.println(usuarios.keys().length);
-        for (String key : usuarios.keys()) {
-            Usuario usuario = null;
+        Mylist<Long> usuariosKeys  = this.getListaClaves();
+        Usuario usuario;
+        for (int i = 0; i < usuarios.size(); i++) {;
             try {
-                usuario = usuarios.get(Long.parseLong(key));
+                usuario = usuarios.get(usuariosKeys.get(i));
 
             if (usuario != null) {
                 binaryTree.insert(usuario.getFavoritos(), usuario);
@@ -264,9 +298,9 @@ public class obligatorioImpl implements obligatorio {
         System.out.println("Los 7 usuarios con más favoritos:");
         int count = 0;
         for (int i = 0; i < usuariosOrdenados.size() && count < 7; i++) {
-            Usuario usuario = usuariosOrdenados.get(i);
-            int favoritos = usuario.getFavoritos();
-            String nombre = usuario.getNombre();
+            Usuario usuarion = usuariosOrdenados.get(i);
+            int favoritos = usuarion.getFavoritos();
+            String nombre = usuarion.getNombre();
             System.out.println("Nombre: " + nombre + ", Cantidad de favoritos: " + favoritos);
             count++;
         }

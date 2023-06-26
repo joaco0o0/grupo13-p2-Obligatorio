@@ -39,11 +39,17 @@ public class Menu {
                     int mes =  Integer.parseInt(scanner.nextLine());
                     System.out.println("Ingrese el anio de la temporada :");
                     int anio =  Integer.parseInt(scanner.nextLine());
-                    if(anio>2023 || anio<2021 || mes>12 || mes<1){
-                        System.out.println("Ingrese un mes y anio validos");
+                    if(anio == 2021 && mes <= 12 && mes > 6){
+                        obligatorio.PilotosMasMencionados(anio,mes);
+                        break;
+                    } else if (anio == 2022 && mes >= 1 && mes < 7) {
+                        obligatorio.PilotosMasMencionados(anio,mes);
                         break;
                     }
-                    //funciones.pilotosMasMencionados(anio,mes);
+                    System.out.println("Ingrese un mes y anio validos");
+                        break;
+
+
 
 
 
@@ -83,6 +89,9 @@ public class Menu {
 
                 case "6":
                     System.out.println("Ha seleccionado la opción 6.");
+                    System.out.println("Ingrese la palabra o frase que quieres consultar :");
+                    String palabraFrase =  scanner.nextLine();
+                    obligatorio.cantidadDeTweetsPalabraFrase(palabraFrase);
                     break;
                 case "7":
                     System.out.println("Saliendo del menú...");
