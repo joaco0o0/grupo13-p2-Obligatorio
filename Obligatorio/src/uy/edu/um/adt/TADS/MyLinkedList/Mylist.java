@@ -17,4 +17,6 @@ public interface Mylist<T> {
 
     void clear();
 
+    T findAt(int index);
+
 }

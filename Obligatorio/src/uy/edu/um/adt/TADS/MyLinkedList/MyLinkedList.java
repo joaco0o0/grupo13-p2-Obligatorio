@@ -262,6 +262,19 @@ public class MyLinkedList<T> implements Mylist<T>, MyStack<T>,MyQueue<T> {
         }
     }
 
+    @Override
+    public T findAt(int index){
+        Node<T> temp = this.first;
+        int tempPosition = 0;
+        while (temp != null) {
+            if (tempPosition == index) {
+                return temp.getValue();
+            }
+            temp = temp.getNext();
+            tempPosition++;
+        }
+        return null;
+    }
 
 
 }

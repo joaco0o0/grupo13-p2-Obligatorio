@@ -141,15 +141,6 @@ public class obligatorioImpl implements obligatorio {
         }
         return tweetsDelMes;
     }
-    public Mylist<Tweet> ObtenerTweetsDelAnio(int Anio, Mylist<Tweet> tweetsTotal){
-        Mylist<Tweet> tweetsDelAnio = new MyLinkedList<>();
-        for (int i = 0; i < tweetsTotal.size(); i++) {
-            if(tweetsTotal.get(i).getFecha().getAnio()==Anio){
-                tweetsDelAnio.add(tweetsTotal.get(i));
-            }
-        }
-        return tweetsDelAnio;
-    }
     public int numeroTweetsConPalabra(String Palabra, Mylist<Tweet> tweetsAMirar){
         int contador=0;
         for (int i = 0; i < tweetsAMirar.size(); i++) {
@@ -276,35 +267,6 @@ public class obligatorioImpl implements obligatorio {
         System.out.println("El hashtag más usado en el día " + dia + " del mes " + mes + " del año " + anio + " es: " + hashtagMasRepetido);
     }
     @Override
-    public void topCuentasMasFavoritos() {
-        MyBinarySearchTreeImpl<Integer, Usuario> binaryTree = new MyBinarySearchTreeImpl<>();
-        MyHash<Long, Usuario> usuarios = this.usuariosHash;
-        Mylist<Long> usuariosKeys  = this.getListaClaves();
-        Usuario usuario;
-        for (int i = 0; i < usuarios.size(); i++) {;
-            try {
-                usuario = usuarios.get(usuariosKeys.get(i));
-
-            if (usuario != null && usuario.getFavoritos() != 0) {
-                binaryTree.insert(usuario.getFavoritos(), usuario);
-            }
-            }catch(NumberFormatException e){
-                continue;
-            }
-        }
-        Mylist<Usuario> usuariosOrdenados = binaryTree.inOrder();
-        System.out.println("Los 7 usuarios con más favoritos:");
-        int count = 0;
-        for (int i = 0; i < usuariosOrdenados.size() && count < 7; i++) {
-            Usuario usuarion = usuariosOrdenados.get(i);
-            int favoritos = usuarion.getFavoritos();
-            String nombre = usuarion.getNombre();
-            System.out.println("Nombre: " + nombre + ", Cantidad de favoritos: " + favoritos);
-            count++;
-        }
-    }
-
-    @Override
     public int cantidadDeTweetsPalabraFrase(String palabraFrase) {
         MyHash<Long, Tweet> tweets = this.tweetsHash;
         int cantTweets = 0;
@@ -321,5 +283,40 @@ public class obligatorioImpl implements obligatorio {
         System.out.println("La cantidad de tweets que contienen la palabra/frase " + palabraFrase + " es: " + cantTweets);
         return cantTweets;
 
+    }
+
+    @Override
+    public void topCuentasMasFavoritos() {
+        MyQueue<Usuario> queue = new MyLinkedList<>();
+        MyQueue<Usuario> lista = new MyLinkedList<>();
+        MyHash<Long, Usuario> usuarioMyHash = this.usuariosHash;
+        for (int i = 0; i < usuarioMyHash.size(); i++) {
+            Usuario user = this.usuarios.findAt(i);
+            queue.enqueueWithPriority(user, user.getFavoritos());
+        }
+        int i = 0;
+        while (queue.size() != 0 && i < 7) {
+            MyLinkedList<Object> list = new MyLinkedList<>();
+            Usuario user = queue.dequeue();
+            lista.enqueue(user);
+            i++;
+        }
+        System.out.println(queue.size());
+        System.out.println("Top 7 de cuentas con más favoritos: ");
+        for (int j = 0; j < 7; j++) {
+            Usuario user = queue.get(j);
+            System.out.println(j+1 + " " + user.getUserName() + " " + user.getFavoritos());
+        }
+    }
+
+    public void setFavoritos(){
+        for(int i = 0 ; i < this.tweets.size(); i++) {
+            try {
+                Tweet tweet = this.tweets.findAt(i);
+                Usuario user = this.usuarios.findAt(i);
+                user.setFavoritos(tweet.getFavorites());
+            } catch (Exception e) {
+            }
+        }
     }
 }

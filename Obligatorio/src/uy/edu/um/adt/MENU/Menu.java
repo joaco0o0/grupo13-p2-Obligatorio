@@ -24,7 +24,7 @@ public class Menu {
                 case "0": //20 seg aprox.
                     System.out.println("Ha seleccionado la opción 0.");
                     System.out.println("Cargando datos...");
-                    obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
+                    obligatorio.cargarTweets("C:\\Users\\Evo-i7\\OneDrive\\Escritorio\\f1_dataset_test.csv");
                     System.out.println("Cantidad de Hashtags: " + obligatorio.getHashtagsHash().size());
                     System.out.println("Cantidad de Tweets: "+ obligatorio.getTweetsHash().size());
                     System.out.println("Cantidad de Usuarios: "+ obligatorio.getUsuarios().size());
@@ -82,6 +82,7 @@ public class Menu {
 
                 case "5":
                     System.out.println("Ha seleccionado la opción 5.");
+                    obligatorio.setFavoritos();//Lugo de la primera vez que se ejecuta ya es trivialhacer esta funcion, pero no estoy seguro de si se puede pone en el cargar datos.
                     obligatorio.topCuentasMasFavoritos();
                     break;
 
