@@ -10,8 +10,11 @@ El programa lee datos de un archivo CSV que contiene información sobre tweets y
 # obligatorio.cargarTweets("AQUI");
 En la linea 27 del archivo Menu.java ubicado en Obligatorio\src\uy\edu\um\adt\MENU
 
+Se utiliza el 0 para cargar los datos y luego se hacen las consultas
+
 
 ## A continuación se describen las opciones disponibles en el menú:
+
 
 1. Listar los 10 pilotos activos en la temporada 2023 más mencionados en Twitter.
 
@@ -42,3 +45,10 @@ En la linea 27 del archivo Menu.java ubicado en Obligatorio\src\uy\edu\um\adt\ME
 	.Esta opción permite salir del programa.
  
 Ten en cuenta que algunos datos, como la ruta del archivo CSV y los detalles de implementación específicos, pueden requerir modificaciones para que el programa se ejecute correctamente en tu entorno.
+Estos son una aproximacion de cuanto tiempo toma cada cosnulta
+1 575296 milisegundos
+2 49466 milisegundos
+3 742 milisegundos
+4 688 milisegundos
+5 903128 milisegundos
+6 170 milisegundos
