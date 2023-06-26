@@ -45,10 +45,12 @@ Una vez en el menu se utiliza el 0 para cargar los datos y luego se hacen las co
 	.Esta opción permite salir del programa.
  
 Ten en cuenta que algunos datos, como la ruta del archivo CSV y los detalles de implementación específicos, pueden requerir modificaciones para que el programa se ejecute correctamente en tu entorno.
-Estos son una aproximacion de cuanto tiempo toma cada cosnulta
-1 575296 milisegundos
-2 49466 milisegundos
-3 742 milisegundos
-4 688 milisegundos
-5 903128 milisegundos
-6 170 milisegundos
+La maxima cantidad de memoria que se utiliza es alrededor de 950 MB.
+Estos son una aproximacion de cuanto tiempo toma cada consulta
+[0(Carga de datos) 9545 milisegundos]
+[1 575296 milisegundos]
+[2 49466 milisegundos]
+[3 742 milisegundos]
+[4 688 milisegundos]
+[5 702039 milisegundos]
+[6 170 milisegundos]
