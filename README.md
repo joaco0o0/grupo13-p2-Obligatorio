@@ -10,7 +10,7 @@ El programa lee datos de un archivo CSV que contiene información sobre tweets y
 # obligatorio.cargarTweets("AQUI");
 En la linea 27 del archivo Menu.java ubicado en Obligatorio\src\uy\edu\um\adt\MENU
 
-Se utiliza el 0 para cargar los datos y luego se hacen las consultas
+Una vez en el menu se utiliza el 0 para cargar los datos y luego se hacen las consultas
 
 
 ## A continuación se describen las opciones disponibles en el menú:
