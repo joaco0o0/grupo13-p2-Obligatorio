@@ -2,6 +2,7 @@ package uy.edu.um.adt.TADS.MyBinaryTree;
 
 import uy.edu.um.adt.TADS.MyLinkedList.MyLinkedList;
 import uy.edu.um.adt.TADS.MyLinkedList.Mylist;
+import uy.edu.um.adt.TADS.MyStack.MyStack;
 
 public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySearchBinaryTree<K,T>{
     private TreeNode<K,T> root;
@@ -68,14 +69,26 @@ public class MyBinarySearchTreeImpl<K extends Comparable<K>,T> implements MySear
 
     @Override
     public Mylist<T> inOrder() {
-        return inOrder(this.root, new MyLinkedList<T>());
-    }
-    public Mylist<T> inOrder(TreeNode<K, T> nodo, Mylist<T> lista){
-        if (nodo != null) {
-            inOrder(nodo.getLeft(), lista);
-            lista.add((T) nodo.getKey());
-            inOrder(nodo.getRight(), lista);
+        Mylist<T> lista = new MyLinkedList<>();
+        if (root == null) {
+            return lista;
         }
+
+        MyStack<TreeNode<K, T>> stack = new MyLinkedList<>();
+        TreeNode<K, T> current = root;
+
+        while (current != null || !(stack.size()==0)) {
+            while (current != null) {
+                stack.push(current);
+                current = current.getLeft();
+            }
+
+            current = stack.pop();
+            lista.add(current.getValue());
+
+            current = current.getRight();
+        }
+
         return lista;
     }
     @Override

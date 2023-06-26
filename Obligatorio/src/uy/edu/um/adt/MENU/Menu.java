@@ -15,7 +15,6 @@ public class Menu {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String eleccion;
-        CSVreader csvReader = new CSVreader();
         obligatorioImpl obligatorio = new obligatorioImpl();
         while (true) {
             mostrarMenu();
@@ -24,6 +23,7 @@ public class Menu {
             switch (eleccion) {
                 case "0": //20 seg aprox.
                     System.out.println("Ha seleccionado la opción 0.");
+                    System.out.println("Cargando datos...");
                     obligatorio.cargarTweets("../obligatorio2023csv/f1_dataset.csv");
                     System.out.println("Cantidad de Hashtags: " + obligatorio.getHashtagsHash().size());
                     System.out.println("Cantidad de Tweets: "+ obligatorio.getTweetsHash().size());
@@ -48,8 +48,6 @@ public class Menu {
                     }
                     System.out.println("Ingrese un mes y anio validos");
                         break;
-
-
 
 
 
@@ -92,6 +90,7 @@ public class Menu {
                     System.out.println("Ingrese la palabra o frase que quieres consultar :");
                     String palabraFrase =  scanner.nextLine();
                     obligatorio.cantidadDeTweetsPalabraFrase(palabraFrase);
+
                     break;
                 case "7":
                     System.out.println("Saliendo del menú...");

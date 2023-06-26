@@ -227,11 +227,10 @@ public class obligatorioImpl implements obligatorio {
     }
 
     public Mylist<String> buscarHashtagsPorFecha(int dia, int mes, int anio) {
-        MyHash<String, Hashtag> hashtags = this.hashtagsHash;
         MyHash<Long, Tweet> tweets = this.tweetsHash;
         Mylist<String> hashtagsDia = new MyLinkedList<>();
         for (String key : tweets.keys()) {
-            try{
+            try {
                 Tweet tweet = tweets.get(Long.parseLong(key));
                 if (tweet != null && tweet.getFecha().containsDia(anio, mes, dia)) {
                     MyLinkedList<Hashtag> tweetHashtags = tweet.getHashtags();
@@ -242,8 +241,7 @@ public class obligatorioImpl implements obligatorio {
                         }
                     }
                 }
-            }catch (NumberFormatException e){
-                continue;
+            } catch (NumberFormatException e) {
             }
         }
         return hashtagsDia;
@@ -287,7 +285,7 @@ public class obligatorioImpl implements obligatorio {
             try {
                 usuario = usuarios.get(usuariosKeys.get(i));
 
-            if (usuario != null) {
+            if (usuario != null && usuario.getFavoritos() != 0) {
                 binaryTree.insert(usuario.getFavoritos(), usuario);
             }
             }catch(NumberFormatException e){
@@ -324,6 +322,4 @@ public class obligatorioImpl implements obligatorio {
         return cantTweets;
 
     }
-
-
 }
