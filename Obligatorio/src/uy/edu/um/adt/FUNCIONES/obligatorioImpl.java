@@ -300,7 +300,6 @@ public class obligatorioImpl implements obligatorio {
             lista.enqueue(user);
             i++;
         }
-        System.out.println(queue.size());
         System.out.println("Top 7 de cuentas con más favoritos: ");
         for (int j = 0; j < 7; j++) {
             Usuario user = queue.get(j);
